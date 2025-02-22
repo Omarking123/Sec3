@@ -1,12 +1,67 @@
+import { useFormik } from "formik";
 import React from "react";
 
 export default function Register() {
+
+let user = {
+  name : 'tews',
+  Phone : '',
+  password: '',
+  rePassword: '',
+  email: ''
+
+}
+function onsubmit (values){
+  console.log("hello formik",values)
+}
+
+  const RegisterFormik =  useFormik ({
+    initialValues:  user,
+    onSubmit :onsubmit,
+
+    validate:  (allData)=>{
+
+      const errors = {};
+
+      const nameRegex = /^[A-Z][a-z]$/ ; 
+      const phoneRegex = /^01[0125][0-9]$/
+
+      if(!nameRegex.test(allData.name)){
+        errors.name ="Name must be with Capital Letter"
+      }
+
+
+      if(!phoneRegex.test(allData.phone)){
+        errors.phone = "your phone must be in egypt "
+      }
+      
+      if(allData.email.includes ("@") == false  ||  allData.email.includes (".com" )==false){
+        errors.email = "Wrong Email"
+      }
+      if(allData.password.length < 6 && allData.length > 12 ){
+        errors.password = "invaild password "
+      }
+      if(allData.password != allData.rePassword){
+        errors.rePassword = "the password desn't match ";
+      }
+      console.log(errors)
+      return errors
+
+    }
+  });
+
+
+
+
+
   return (
     <div className=" p-5 ">
       <h2 className=" text-center ">Register Now </h2>
-      <form className="max-w-md mx-auto">
+      <form onSubmit={RegisterFormik.handleSubmit} className="max-w-md mx-auto">
       <div className="relative z-0 w-full mb-5 group">
         <input
+          value={RegisterFormik.values.name}
+          onChange={RegisterFormik.handleChange}
           type="text"
           name="name"
           id="name"
@@ -23,6 +78,8 @@ export default function Register() {
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
+        value={RegisterFormik.values.email}
+        onChange={RegisterFormik.handleChange}
           type="email"
           name="email"
           id="email"
@@ -39,6 +96,8 @@ export default function Register() {
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
+        value={RegisterFormik.values.password}
+        onChange={RegisterFormik.handleChange}
           type="password"
           name="password"
           id="password"
@@ -55,6 +114,8 @@ export default function Register() {
       </div>
        <div className="relative z-0 w-full mb-5 group">
         <input
+          value={RegisterFormik.values.rePassword}
+          onChange={RegisterFormik.handleChange}
           type="password"
           name="rePassword"
           id="rePassword"
@@ -71,6 +132,8 @@ export default function Register() {
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
+          value={RegisterFormik.values.phone}
+          onChange={RegisterFormik.handleChange}
           type="tel"
           name="Phone"
           id="Phone"
