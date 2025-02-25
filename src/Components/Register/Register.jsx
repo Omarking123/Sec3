@@ -68,6 +68,7 @@ function onsubmit (values){
         <input
           value={RegisterFormik.values.name}
           onChange={RegisterFormik.handleChange}
+          onBlur={RegisterFormik.handleBlur}
           type="text"
           name="name"
           id="name"
@@ -81,13 +82,18 @@ function onsubmit (values){
         >
           Name
         </label>
+       {RegisterFormik.errors.name && RegisterFormik.touched.name ?  <div className="p-4 mt-1 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        {RegisterFormik.errors.name}
+        </div> : ''}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
         value={RegisterFormik.values.email}
         onChange={RegisterFormik.handleChange}
+        onBlur={RegisterFormik.handleBlur}
           type="email"
           name="email"
+
           id="email"
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=""
@@ -99,11 +105,16 @@ function onsubmit (values){
         >
           Email Address
         </label>
+
+        {RegisterFormik.errors.email && RegisterFormik.touched.email ?  <div className="p-4 mt-1 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+          {RegisterFormik.errors.email}
+        </div> : ""}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
         value={RegisterFormik.values.password}
         onChange={RegisterFormik.handleChange}
+        onBlur={RegisterFormik.handleBlur}
           type="password"
           name="password"
           id="password"
@@ -117,11 +128,17 @@ function onsubmit (values){
         >
           Password
         </label>
+        
+        {RegisterFormik.errors.password && RegisterFormik.touched.password  ?  <div className="p-4 mt-1 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+
+          {RegisterFormik.errors.password}
+        </div> :"" }
       </div>
        <div className="relative z-0 w-full mb-5 group">
         <input
           value={RegisterFormik.values.rePassword}
           onChange={RegisterFormik.handleChange}
+          onBlur={RegisterFormik.handleBlur}
           type="password"
           name="rePassword"
           id="rePassword"
@@ -135,11 +152,17 @@ function onsubmit (values){
         >
           rePassword
         </label>
+
+        {RegisterFormik.errors.rePassword && RegisterFormik.touched.rePassword ?  <div className="p-4 mt-1 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+          {RegisterFormik.errors.rePassword}
+
+        </div> :''}
       </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
           value={RegisterFormik.values.phone}
           onChange={RegisterFormik.handleChange}
+          onBlur={RegisterFormik.handleBlur}
           type="tel"
           name="phone"
           id="phone"
@@ -153,6 +176,9 @@ function onsubmit (values){
         >
           Phone
         </label>
+        {RegisterFormik.errors.phone && RegisterFormik.touched.phone ? <div className="p-4 mt-1 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+          {RegisterFormik.errors.phone}
+        </div>  :''}
       </div>
 
       <button
