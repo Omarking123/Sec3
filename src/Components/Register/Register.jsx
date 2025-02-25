@@ -2,10 +2,11 @@ import { useFormik } from "formik";
 import React from "react";
 
 export default function Register() {
+  
 
 let user = {
-  name : 'tews',
-  Phone : '',
+  name : '',
+  phone : '',
   password: '',
   rePassword: '',
   email: ''
@@ -18,13 +19,17 @@ function onsubmit (values){
   const RegisterFormik =  useFormik ({
     initialValues:  user,
     onSubmit :onsubmit,
-
     validate:  (allData)=>{
 
+      
       const errors = {};
+      // const nameRegex = /^[A-Z][a-z]+$/;
+      
+      // const phoneRegex = /^01[0125][0-9]{8}$/;
 
-      const nameRegex = /^[A-Z][a-z]$/ ; 
-      const phoneRegex = /^01[0125][0-9]$/
+      const nameRegex = /^[A-Z][a-zA-Z\s]+$/;
+      const phoneRegex = /^01[0125][0-9]{8}$/;
+
 
       if(!nameRegex.test(allData.name)){
         errors.name ="Name must be with Capital Letter"
@@ -38,13 +43,14 @@ function onsubmit (values){
       if(allData.email.includes ("@") == false  ||  allData.email.includes (".com" )==false){
         errors.email = "Wrong Email"
       }
-      if(allData.password.length < 6 && allData.length > 12 ){
+      if(allData.password.length < 6 || allData.password.length > 12 ){
         errors.password = "invaild password "
       }
       if(allData.password != allData.rePassword){
         errors.rePassword = "the password desn't match ";
       }
       console.log(errors)
+     
       return errors
 
     }
@@ -135,14 +141,14 @@ function onsubmit (values){
           value={RegisterFormik.values.phone}
           onChange={RegisterFormik.handleChange}
           type="tel"
-          name="Phone"
-          id="Phone"
+          name="phone"
+          id="phone"
           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
           required
         />
         <label
-          htmlFor="Phone"
+          htmlFor="phone"
           className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         >
           Phone
