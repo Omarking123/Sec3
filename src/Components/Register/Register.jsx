@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
 import React from "react";
-
+import * as Yup from 'yup';
 export default function Register() {
   
+
 
 let user = {
   name : '',
@@ -19,41 +20,53 @@ function onsubmit (values){
   const RegisterFormik =  useFormik ({
     initialValues:  user,
     onSubmit :onsubmit,
-    validate:  (allData)=>{
+
+
+    validationSchema : Yup.object().shape({
+
+      name: Yup.string().required("Name is required ").min(3, "Minmum must be 3 ").max(12, "Max Must be less than 12 ") ,
+      email: Yup.string().email("Invaild Value").required() , 
+      password : Yup.string().min(6).max(12) ,
+      rePassword :Yup.string().required().oneOf([Yup.ref("password")],"Re password dosen't match ") ,
+      phone  : Yup.string().required().matches(/^01[0125][0-9]{8}$/ , "Not valid ")
+
+
+    })
+    // validate:  (allData)=>{
 
       
-      const errors = {};
-      // const nameRegex = /^[A-Z][a-z]+$/;
+    //   const errors = {};
+    //   // const nameRegex = /^[A-Z][a-z]+$/;
       
-      // const phoneRegex = /^01[0125][0-9]{8}$/;
+    //   // const phoneRegex = /^01[0125][0-9]{8}$/;
 
-      const nameRegex = /^[A-Z][a-zA-Z\s]+$/;
-      const phoneRegex = /^01[0125][0-9]{8}$/;
-
-
-      if(!nameRegex.test(allData.name)){
-        errors.name ="Name must be with Capital Letter"
-      }
+    //   const nameRegex = /^[A-Z][a-zA-Z\s]+$/;
+    //   const phoneRegex = /^01[0125][0-9]{8}$/;
 
 
-      if(!phoneRegex.test(allData.phone)){
-        errors.phone = "your phone must be in egypt "
-      }
+    //   if(!nameRegex.test(allData.name)){
+    //     errors.name ="Name must be with Capital Letter"
+    //   }
+
+
+    //   if(!phoneRegex.test(allData.phone)){
+    //     errors.phone = "your phone must be in egypt "
+    //   }
       
-      if(allData.email.includes ("@") == false  ||  allData.email.includes (".com" )==false){
-        errors.email = "Wrong Email"
-      }
-      if(allData.password.length < 6 || allData.password.length > 12 ){
-        errors.password = "invaild password "
-      }
-      if(allData.password != allData.rePassword){
-        errors.rePassword = "the password desn't match ";
-      }
-      console.log(errors)
+    //   if(allData.email.includes ("@") == false  ||  allData.email.includes (".com" )==false){
+    //     errors.email = "Wrong Email"
+    //   }
+    //   if(allData.password.length < 6 || allData.password.length > 12 ){
+    //     errors.password = "invaild password "
+    //   }
+    //   if(allData.password != allData.rePassword){
+    //     errors.rePassword = "the password desn't match ";
+    //   }
+      
      
-      return errors
+    //   return errors
 
-    }
+    // }
   });
 
 
