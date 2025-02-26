@@ -1,9 +1,16 @@
+import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
+import { ColorRing} from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
+
 export default function Register() {
   
-
+const [iserror, setiserror] = useState(null)
+const [Issucc, setIssucc] = useState(false)
+const [Flag, setFlag] = useState(false)
+const navigate =  useNavigate()
 
 let user = {
   name : '',
@@ -13,13 +20,39 @@ let user = {
   email: ''
 
 }
-function onsubmit (values){
-  console.log("hello formik",values)
+
+
+async function RegisterUser (values){
+  setFlag(true)
+
+  const result = await  axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup' , values)
+  .then(()=>{
+    setIssucc(true)
+    setFlag(false)
+
+    setTimeout(() => {
+      navigate('/login')
+      
+    }, 2000);
+   
+    
+  })
+  .catch((x)=>{
+    setiserror(x.response.data.message)
+    setFlag(false)
+    setTimeout(() => {
+      setiserror(null)
+
+    }, 2000);
+      
+ 
+  })
+  
 }
 
   const RegisterFormik =  useFormik ({
     initialValues:  user,
-    onSubmit :onsubmit,
+    onSubmit :RegisterUser,
 
 
     validationSchema : Yup.object().shape({
@@ -32,41 +65,7 @@ function onsubmit (values){
 
 
     })
-    // validate:  (allData)=>{
-
-      
-    //   const errors = {};
-    //   // const nameRegex = /^[A-Z][a-z]+$/;
-      
-    //   // const phoneRegex = /^01[0125][0-9]{8}$/;
-
-    //   const nameRegex = /^[A-Z][a-zA-Z\s]+$/;
-    //   const phoneRegex = /^01[0125][0-9]{8}$/;
-
-
-    //   if(!nameRegex.test(allData.name)){
-    //     errors.name ="Name must be with Capital Letter"
-    //   }
-
-
-    //   if(!phoneRegex.test(allData.phone)){
-    //     errors.phone = "your phone must be in egypt "
-    //   }
-      
-    //   if(allData.email.includes ("@") == false  ||  allData.email.includes (".com" )==false){
-    //     errors.email = "Wrong Email"
-    //   }
-    //   if(allData.password.length < 6 || allData.password.length > 12 ){
-    //     errors.password = "invaild password "
-    //   }
-    //   if(allData.password != allData.rePassword){
-    //     errors.rePassword = "the password desn't match ";
-    //   }
-      
-     
-    //   return errors
-
-    // }
+    
   });
 
 
@@ -75,6 +74,12 @@ function onsubmit (values){
 
   return (
     <div className=" p-5 ">
+      {iserror != null ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+          <span className="font-medium">{iserror}</span> 
+      </div> : ''}
+      {Issucc == true ? <div className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+          <span className="font-medium">Congurtlion</span> 
+      </div> : ''}
       <h2 className=" text-center ">Register Now </h2>
       <form onSubmit={RegisterFormik.handleSubmit} className="max-w-md mx-auto">
       <div className="relative z-0 w-full mb-5 group">
@@ -198,7 +203,20 @@ function onsubmit (values){
         type="submit"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Submit
+       { Flag ==false ?"Submit" :  <ColorRing
+        visible={true}
+        height="30"
+        width="30"
+        ariaLabel="color-ring-loading"
+        wrapperStyle={{}}
+        wrapperClass="color-ring-wrapper"
+        colors={['#fff', '#fff', '#fff', '#fff', '#fff']}
+      />}
+
+ 
+  
+
+
       </button>
     </form>
     </div>
